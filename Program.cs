@@ -11,10 +11,11 @@ namespace primeProgram
             // if invalid input give a message back and restart the program
             Console.WriteLine("give a number, and we will resolve the prime numbers in that range");
             PrimeNumberConsole instance = PrimeNumberConsole.initiateByUserInput();
+            Thread mathsThread = new Thread(new ThreadStart(instance.check));
             Console.WriteLine("time 2 big brain");
-            int[] primeNumbers = instance.check();
-            // do the other magic
-            foreach (var item in primeNumbers)
+            mathsThread.Start();
+            mathsThread.Join();
+            foreach (var item in instance.primeNumbers.ToArray())
             {
                 Console.WriteLine(item);
             }

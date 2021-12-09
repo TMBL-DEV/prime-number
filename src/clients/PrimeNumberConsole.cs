@@ -3,47 +3,42 @@ namespace primeProgram
     class PrimeNumberConsole
     {
         const int defaultPrimeNumber = 2;
-        List<int> primeNumbers = new List<int>();
+        public List<int> primeNumbers = new List<int>();
         private int inputNumber = 2;
-
+        private int possiblePrimeNumber = 0;
         public PrimeNumberConsole(string inputNumberToCovert)
         {
             this.inputNumber = Int32.Parse(s: inputNumberToCovert);
             this.primeNumbers.Add(2);
         }
 
-        public int[] check()
+        public void check()
         {
+            List<Thread> slaves = new List<Thread>();
             for (int i = 2; i < this.inputNumber; i++)
             {
-                int possiblePrimeNumber = i + 1;
-                if (this.checkIfPrime(possiblePrimeNumber))
-                {
-                    this.primeNumbers.Add(possiblePrimeNumber);
-                }
+                this.possiblePrimeNumber = i + 1;
+                this.checkIfPrime();
             }
-
-            return this.primeNumbers.ToArray();
         }
 
-        private bool checkIfPrime(int possiblePrime)
+        void checkIfPrime()
         {
             // get the sqrt and  of the possiblePrime and round it up
-            Double maxInt = Math.Ceiling(Math.Sqrt(possiblePrime));
+            Double maxInt = Math.Ceiling(Math.Sqrt(this.possiblePrimeNumber));
             // check all the prime numbers we have with the current number
             foreach (int primeNumber in this.primeNumbers)
             {
                 if (primeNumber <= maxInt)
                 {
-                    double dividedResult = (double)possiblePrime / primeNumber;
+                    double dividedResult = (double)this.possiblePrimeNumber / primeNumber;
                     if ((dividedResult == Math.Floor(dividedResult)))
                     {
-                        return false;
+                        return;
                     }
                 }
             }
-
-            return true;
+            this.primeNumbers.Add(this.possiblePrimeNumber);
         }
 
         public static PrimeNumberConsole initiateByUserInput()
